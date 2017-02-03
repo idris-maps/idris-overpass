@@ -23,6 +23,6 @@ io(config, function(geojson) {
 
 **config**
 
-* bbox (required) [minX, minY, maxX, maxY]
-* kv (required) an array of objects ```{key: ... , value: ... }```
-* timeout (optional)
+* **bbox** (required) [minX, minY, maxX, maxY]
+* **kv** (required) an array of objects ```{key: ... , value: ... }```
+* **timeout** (optional)
