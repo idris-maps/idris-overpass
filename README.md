@@ -3,6 +3,7 @@
 Query the [overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API). Returns a GeoJSON collection.
 
 **WORKS ONLY IN NODE as it uses [request](https://www.npmjs.com/package/request) to fetch the data.**
+For use in the browser, see [idris-overpass-browser](https://www.npmjs.com/package/idris-overpass-browser)
 
 ## Usage
 
