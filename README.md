@@ -1,21 +1,22 @@
 # idris-overpass
 
-Query the [overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API). Returns a GeoJSON collection.
+Query the [overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API). Returns a GeoJSON collection, takes an [error-first callback](http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/).
 
 ## Usage
 
-**io(config, callback)**
+**queryOverpass(config, callback)**
 
 ```
-var io = require('idris-overpass')
+var queryOverpass = require('idris-overpass')
 
 var config = {
 	bbox: [7.590,47.560,7.595,47.563],
 	kv: [{key: 'highway', value: '*'}]
 }
 
-io(config, function(geojson) {
-	console.log(geojson)
+queryOverpass(config, function(err, geojson) {
+	if (err) console.error(err)
+	else console.log(geojson)
 })
 ```
 

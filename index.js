@@ -5,9 +5,10 @@ var osmtogeojson = require('osmtogeojson')
 module.exports = function(input, callback) {
 	var data = checkInput(input)
 	var url = createUrl(data.bbox, data.kv, data.timeout)
-	reqUrl(url, function(json) { 
+	reqUrl(url, function(err, json) { 
+		if (err) return callback(err)
 		var geojson = osmtogeojson(json, { flatProperties: true })
-		callback(geojson)
+		callback(null, geojson)
 	})
 }
 
@@ -58,10 +59,7 @@ function reqUrl(url, callback) {
 		return res.json()
 	})
 	.then(function (body) {
-		callback(body)
+		callback(null, body)
 	})
-	.catch(function (error) {
-		console.log('request ERROR', error.message)
-		console.log('request STATUSCODE', response.statusCode)
-	})
+	.catch(callback)
 }
