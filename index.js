@@ -1,12 +1,14 @@
-var request = require('request')
+var Promise = require('pinkie-promise')
+var fetch = require('fetch-ponyfill')({Promise: Promise}).fetch
 var osmtogeojson = require('osmtogeojson')
 
 module.exports = function(input, callback) {
 	var data = checkInput(input)
 	var url = createUrl(data.bbox, data.kv, data.timeout)
-	reqUrl(url, function(json) { 
+	reqUrl(url, function(err, json) { 
+		if (err) return callback(err)
 		var geojson = osmtogeojson(json, { flatProperties: true })
-		callback(geojson)
+		callback(null, geojson)
 	})
 }
 
@@ -44,12 +46,20 @@ function createUrl(bb, keyVals, timeout) {
 }
 
 function reqUrl(url, callback) {
-	request(url, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			callback(JSON.parse(body))
-		} else {
-			console.log('request ERROR', error)
-			console.log('request STATUSCODE', response.statusCode)
-		}
+	fetch(url, {
+		mode: 'cors',
+		redirect: 'follow'
 	})
+	.then(function (res) {
+		if (!res.ok) {
+			var err = new Error(res.statusText)
+			err.statusCode = res.status
+			throw err
+		}
+		return res.json()
+	})
+	.then(function (body) {
+		callback(null, body)
+	})
+	.catch(callback)
 }
