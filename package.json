@@ -14,8 +14,9 @@
   "author": "idris-maps",
   "license": "GPL-2.0",
   "dependencies": {
+    "fetch-ponyfill": "^4.0.0",
     "osmtogeojson": "^2.2.12",
-    "request": "^2.79.0"
+    "pinkie-promise": "^2.0.1"
   },
   "repository": {
     "type": "git",
